@@ -3,210 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prompt Playground - Collaborative AI Prompts for Educators</title>
+    <title>Classroom Jukebox</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
-        .font-handwriting {
-            font-family: 'Kalam', cursive;
-        }
-        .bg-grid {
-            background-image:
-                linear-gradient(to right, rgba(229, 231, 235, 0.5) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(229, 231, 235, 0.5) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .card-hover-effect {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .card-hover-effect:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #4F46E5, #EC4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .highlight {
+            background-color: #fde68a; /* A light yellow highlight */
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="bg-gray-100 text-gray-800">
 
-    <!-- Header -->
-    <header class="sticky top-0 bg-white/80 backdrop-blur-md z-50 shadow-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold">
-                <span class="gradient-text">Prompt Playground</span>
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900">Classroom Jukebox</h1>
+            <p class="text-lg text-gray-600 mt-2">Submit your favorite tunes and enjoy the music together!</p>
+        </header>
+
+        <main>
+            <!-- YouTube Player -->
+            <div id="player-container" class="mb-8 rounded-lg shadow-lg overflow-hidden bg-black">
+                <div id="player"></div>
             </div>
-            <a href="#join-beta" class="bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-indigo-700 transition-colors">Join the Beta</a>
-        </div>
-    </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="py-20 md:py-32 bg-grid">
-            <div class="container mx-auto px-6 text-center">
-                <p class="font-handwriting text-indigo-500 text-2xl mb-4">Built with ❤️ at HackEDU 2025</p>
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                    Stop Guessing. Start Creating.
-                    <br>
-                    <span class="gradient-text">AI Prompts for Your Classroom.</span>
-                </h1>
-                <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 mb-10">
-                    Prompt Playground is a collaborative space for teachers to build, test, and share high-quality AI prompts that spark curiosity and enhance learning.
-                </p>
-                <a href="#how-it-works" class="bg-indigo-600 text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-indigo-700 transition-transform transform hover:scale-105">
-                    See How It Works
-                </a>
-            </div>
-        </section>
-
-        <!-- Problem Section -->
-        <section class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">AI in the Classroom Feels... Complicated.</h2>
-                    <p class="max-w-2xl mx-auto text-lg text-gray-600">You know AI can be a powerful tool, but where do you start? Finding the right words to get the right results is a challenge.</p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Problem Card 1 -->
-                    <div class="bg-yellow-100/50 border border-yellow-200 p-8 rounded-2xl text-center card-hover-effect">
-                        <div class="text-5xl mb-4">🤔</div>
-                        <h3 class="text-xl font-semibold mb-2">The Blank Page Problem</h3>
-                        <p class="text-gray-700">Staring at a chat window, unsure what to ask to get a useful, age-appropriate response for your students.</p>
-                    </div>
-                    <!-- Problem Card 2 -->
-                    <div class="bg-pink-100/50 border border-pink-200 p-8 rounded-2xl text-center card-hover-effect">
-                        <div class="text-5xl mb-4">孤</div>
-                        <h3 class="text-xl font-semibold mb-2">Reinventing the Wheel</h3>
-                        <p class="text-gray-700">Every teacher is figuring it out alone, creating prompts from scratch instead of building on shared knowledge.</p>
-                    </div>
-                    <!-- Problem Card 3 -->
-                    <div class="bg-blue-100/50 border border-blue-200 p-8 rounded-2xl text-center card-hover-effect">
-                         <div class="text-5xl mb-4">📉</div>
-                        <h3 class="text-xl font-semibold mb-2">Inconsistent Results</h3>
-                        <p class="text-gray-700">Prompts that work one day fail the next, making it hard to create reliable lesson plans with AI.</p>
-                    </div>
+            <!-- Submission Form -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <h2 class="text-2xl font-semibold mb-4">Add a Song</h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input type="text" id="youtube-url" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Paste a YouTube URL">
+                    <input type="text" id="nickname" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Your name (optional)">
+                    <button id="submit-song" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition duration-300">Add to Queue</button>
                 </div>
             </div>
-        </section>
 
-        <!-- How It Works Section -->
-        <section id="how-it-works" class="py-20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">A Simple, Collaborative Workflow</h2>
-                    <p class="max-w-2xl mx-auto text-lg text-gray-600">Go from idea to classroom-ready activity in just a few steps.</p>
-                </div>
-                <div class="relative">
-                    <!-- Dotted Line for Desktop -->
-                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 border-t-2 border-dashed border-gray-300 -translate-y-1/2"></div>
-                    <div class="grid md:grid-cols-3 gap-12 relative">
-                        <!-- Step 1 -->
-                        <div class="text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-                            <div class="bg-indigo-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">1</div>
-                            <h3 class="text-2xl font-semibold mb-3">Co-Create Prompts</h3>
-                            <p class="text-gray-600">Start with a template or a blank canvas. Write prompts with AI-powered suggestions and see what other educators are building.</p>
-                        </div>
-                        <!-- Step 2 -->
-                        <div class="text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-                            <div class="bg-pink-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">2</div>
-                            <h3 class="text-2xl font-semibold mb-3">Test in the Playground</h3>
-                            <p class="text-gray-600">Run your prompt instantly in a safe environment. Compare outputs from different models to find what works best.</p>
-                        </div>
-                        <!-- Step 3 -->
-                        <div class="text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-                             <div class="bg-teal-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">3</div>
-                            <h3 class="text-2xl font-semibold mb-3">Share & Adapt</h3>
-                            <p class="text-gray-600">Publish your successful prompts to a shared library. Discover, adapt, and use what your peers have created.</p>
-                        </div>
-                    </div>
+            <!-- Song Queue -->
+            <div>
+                <h2 class="text-2xl font-semibold mb-4">Up Next</h2>
+                <div id="queue" class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <!-- Songs will be dynamically added here -->
                 </div>
             </div>
-        </section>
 
-        <!-- Visual Demo Placeholder Section -->
-        <section class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="bg-gray-900 rounded-2xl p-8 md:p-12 shadow-2xl">
-                    <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg flex items-center justify-center relative overflow-hidden">
-                        <img src="https://placehold.co/1200x675/000000/FFFFFF?text=Prompt+Playground+Demo" alt="Prompt Playground Demo" class="w-full h-full object-cover opacity-30">
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                             <div class="bg-white/20 backdrop-blur-sm rounded-full w-24 h-24 flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <h3 class="text-white text-2xl font-bold mt-6">See It In Action</h3>
-                            <p class="text-gray-300 mt-2 max-w-md">Watch a quick tour of how you can create and test a prompt for a 5th-grade history lesson.</p>
-                        </div>
-                    </div>
-                </div>
+            <!-- User ID Display -->
+            <div class="mt-8 text-center text-sm text-gray-500">
+                <p>Your User ID: <span id="user-id" class="font-mono"></span></p>
+                <p>Share this ID with others to join the same jukebox.</p>
             </div>
-        </section>
+        </main>
+    </div>
 
-        <!-- Team Section -->
-        <section class="py-20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Crafted in 48 Hours</h2>
-                    <p class="max-w-2xl mx-auto text-lg text-gray-600">Prompt Playground was proudly built by a passionate team of educators and developers at the <span class="font-handwriting text-indigo-500 text-xl">HackEDU 2025</span> hackathon.</p>
-                </div>
-                <div class="flex justify-center flex-wrap gap-8 md:gap-12">
-                    <!-- Team Member 1 -->
-                    <div class="text-center">
-                        <img src="https://placehold.co/128x128/E0E7FF/4F46E5?text=AV" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white shadow-md" alt="Team Member Avatar">
-                        <h4 class="text-xl font-semibold">Alex Rivera</h4>
-                        <p class="text-gray-500">Project Lead</p>
-                    </div>
-                     <!-- Team Member 2 -->
-                    <div class="text-center">
-                        <img src="https://placehold.co/128x128/FCE7F3/EC4899?text=AV" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white shadow-md" alt="Team Member Avatar">
-                        <h4 class="text-xl font-semibold">Ben Carter</h4>
-                        <p class="text-gray-500">Lead Developer</p>
-                    </div>
-                     <!-- Team Member 3 -->
-                    <div class="text-center">
-                        <img src="https://placehold.co/128x128/D1FAE5/10B981?text=AV" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white shadow-md" alt="Team Member Avatar">
-                        <h4 class="text-xl font-semibold">Casey Lee</h4>
-                        <p class="text-gray-500">UX/UI Designer</p>
-                    </div>
-                     <!-- Team Member 4 -->
-                    <div class="text-center">
-                        <img src="https://placehold.co/128x128/FEF3C7/F59E0B?text=AV" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white shadow-md" alt="Team Member Avatar">
-                        <h4 class="text-xl font-semibold">Dana Rios</h4>
-                        <p class="text-gray-500">Education Specialist</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <script type="module">
+        // Firebase Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, doc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        <!-- CTA Section -->
-        <section id="join-beta" class="py-20 bg-indigo-700 bg-grid">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Play?</h2>
-                <p class="max-w-2xl mx-auto text-lg text-indigo-200 mb-10">
-                    Be the first to know when Prompt Playground launches. Join our beta list to get early access and help shape the future of collaborative AI for education.
-                </p>
-                <form class="max-w-lg mx-auto flex flex-col sm:flex-row gap-4">
-                    <input type="email" placeholder="Enter your email" class="w-full px-5 py-4 rounded-lg border-2 border-transparent focus:outline-none focus:border-pink-400 text-gray-800" required>
-                    <button type="submit" class="bg-pink-500 text-white font-bold px-8 py-4 rounded-lg hover:bg-pink-600 transition-colors whitespace-nowrap">Get Updates</button>
-                </form>
-                 <p class="text-indigo-300 text-sm mt-4">We respect your privacy. No spam, ever.</p>
-            </div>
-        </section>
-    </main>
+        // Firebase Configuration
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+          apiKey: "YOUR_API_KEY",
+          authDomain: "YOUR_AUTH_DOMAIN",
+          projectId: "YOUR_PROJECT_ID",
+          storageBucket: "YOUR_STORAGE_BUCKET",
+          messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+          appId: "YOUR_APP_ID"
+        };
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Prompt Playground. A HackEDU Project.</p>
-        </div>
-    </footer>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
+        // State
+        let player;
+        let userId;
+        let queueListener;
+        let currentSongId = null;
+        let isPlaying = false;
+
+        // DOM Elements
+        const submitButton = document.getElementById('submit-song');
+        const urlInput = document.getElementById('youtube-url');
+        const nicknameInput = document.getElementById('nickname');
+        const queueContainer = document.getElementById('queue');
+        const userIdDisplay = document.getElementById('user-id');
+
+        // --- AUTHENTICATION ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+                userIdDisplay.textContent = userId;
+                setupQueueListener();
+            } else {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (error) {
+                    console.error("Authentication failed:", error);
+                }
+            }
+        });
+
+        // --- YOUTUBE PLAYER API ---
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('player', {
+                height: '390',
+                width: '100%',
+                playerVars: {
+                    'playsinline': 1,
+                    'autoplay': 0,
+                    'controls': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Player is ready
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                playNextSong();
+            }
+        }
+
+        // --- FIRESTORE QUEUE MANAGEMENT ---
+        function getQueueCollection() {
+            return collection(db, `artifacts/${appId}/public/data/queue`);
+        }
+
+        function setupQueueListener() {
+            if (queueListener) queueListener(); // Unsubscribe from previous listener
+            const q = query(getQueueCollection());
+            queueListener = onSnapshot(q, (querySnapshot) => {
+                const songs = [];
+                querySnapshot.forEach((doc) => {
+                    songs.push({ id: doc.id, ...doc.data() });
+                });
+                renderQueue(songs);
+                if (!isPlaying && songs.length > 0) {
+                    playNextSong(songs);
+                }
+            });
+        }
+
+        async function addSong() {
+            const url = urlInput.value.trim();
+            const nickname = nicknameInput.value.trim() || 'Anonymous';
+            if (!url) {
+                alert("Please enter a YouTube URL.");
+                return;
+            }
+
+            const videoId = extractVideoID(url);
+            if (!videoId) {
+                alert("Invalid YouTube URL.");
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Adding...';
+
+            try {
+                // NOTE: In a production environment, you'd use a server-side function
+                // to securely call the YouTube Data API to get the video title.
+                // For this example, we'll use a simple placeholder title.
+                const title = `YouTube Video (${videoId})`;
+
+                await addDoc(getQueueCollection(), {
+                    videoId: videoId,
+                    title: title,
+                    submitter: nickname,
+                    timestamp: new Date()
+                });
+
+                urlInput.value = '';
+                nicknameInput.value = '';
+
+            } catch (error) {
+                console.error("Error adding song: ", error);
+                alert("Could not add the song. Please try again.");
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Add to Queue';
+            }
+        }
+
+        async function removeSong(songId) {
+             if (!songId) return;
+             try {
+                 await deleteDoc(doc(db, `artifacts/${appId}/public/data/queue`, songId));
+             } catch (error) {
+                 console.error("Error removing song:", error);
+             }
+         }
+
+
+        // --- UI & PLAYBACK LOGIC ---
+        function renderQueue(songs) {
+            queueContainer.innerHTML = '';
+            if (songs.length === 0) {
+                queueContainer.innerHTML = '<p class="p-4 text-gray-500">The queue is empty. Add a song to get started!</p>';
+                return;
+            }
+
+            songs.forEach(song => {
+                const div = document.createElement('div');
+                div.className = `p-4 border-b border-gray-200 flex justify-between items-center ${song.id === currentSongId ? 'highlight' : ''}`;
+                div.innerHTML = `
+                    <div>
+                        <p class="font-semibold">${song.title}</p>
+                        <p class="text-sm text-gray-600">Submitted by: ${song.submitter}</p>
+                    </div>
+                    <button data-id="${song.id}" class="remove-song-btn text-red-500 hover:text-red-700 font-bold py-1 px-2 rounded">&times;</button>
+                `;
+                queueContainer.appendChild(div);
+            });
+
+            document.querySelectorAll('.remove-song-btn').forEach(button => {
+                 button.addEventListener('click', (e) => {
+                     const songIdToRemove = e.target.getAttribute('data-id');
+                     if (songIdToRemove === currentSongId) {
+                         playNextSong();
+                     }
+                     removeSong(songIdToRemove);
+                 });
+             });
+        }
+
+       async function playNextSong(songList) {
+            if (currentSongId) {
+                await removeSong(currentSongId);
+            }
+
+            let songs = songList;
+            if(!songs) {
+              const q = query(getQueueCollection());
+              const snapshot = await getDocs(q);
+              songs = [];
+              snapshot.forEach((doc) => {
+                  songs.push({ id: doc.id, ...doc.data() });
+              });
+            }
+
+
+            if (songs.length > 0) {
+                const nextSong = songs[0];
+                currentSongId = nextSong.id;
+                isPlaying = true;
+                player.loadVideoById(nextSong.videoId);
+                player.playVideo();
+                renderQueue(songs); // Re-render to highlight the new song
+            } else {
+                currentSongId = null;
+                isPlaying = false;
+                player.stopVideo();
+                // Clear the player or show a "queue empty" message.
+                document.getElementById('player-container').style.display = 'block'; // Or hide it
+                renderQueue([]); // Ensure queue is shown as empty
+            }
+        }
+
+
+        function extractVideoID(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        // --- EVENT LISTENERS ---
+        submitButton.addEventListener('click', addSong);
+    </script>
 </body>
 </html>
 
